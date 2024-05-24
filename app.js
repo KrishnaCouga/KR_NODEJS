@@ -120,4 +120,7 @@ db.on("open", () => {
     db.on("error", () => {
         console.log("error while connecting to database");
     })
-})
+});
+
+const userRouter = require("./src/router/userRouter")
+app.use("/user", userRouter)
