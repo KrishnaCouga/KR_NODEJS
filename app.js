@@ -111,8 +111,13 @@
 
 const express = require('express')
 const app = express()
+const userRouter = require("./src/router/userRouter")
+const bodyParser = require("body-parser")
 
-const db = require('./KR_NODEJS/src/database/db')
+app.use(bodyParser.json())
+app.use("/user", userRouter)
+
+const db = require('./src/database/db')
 db.on("open", () => {
     app.listen(3000, () => {
         console.log("server is running on port 3000");
@@ -122,5 +127,4 @@ db.on("open", () => {
     })
 });
 
-const userRouter = require("./src/router/userRouter")
-app.use("/user", userRouter)
+

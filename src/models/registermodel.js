@@ -4,7 +4,7 @@ const registerSchema = new mongoose.Schema({
         type: String
     },
     rollno: {
-        type: number
+        type: Number
     },
     id: {
         type: String
