@@ -5,13 +5,14 @@ const createProductDetails = async (body) => {
     return createProduct
 }
 
-// const getUsers = async () => {
-//     const userDetails = await userModel.find({})
-//     return userDetails
-// }
-// const getSpecificUser = async (id) => {
-//     const userDetail = await userModel.findById({ _id: id });
-//     return userDetail
-// }
+const getProducts = async () => {
+    const productDetails = await productModel.find({})
+    return productDetails
+}
 
-module.exports = { createProductDetails }
+const getSpecificProduct = async (id) => {
+    const productDetail = await productModel.findById({ _id: id });
+    return productDetail
+}
+
+module.exports = { createProductDetails, getProducts, getSpecificProduct }

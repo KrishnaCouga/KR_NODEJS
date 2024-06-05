@@ -7,17 +7,17 @@ const createProductDetails = async (req, res) => {
     res.send(productData)
 }
 
-// //get user
-// const getUserAll = async (req, res) => {
-//     const users = await userService.getUsers();
-//     res.send(users);
-// }
+//get product
+const getProductAll = async (req, res) => {
+    const Products = await productService.getProducts();
+    res.send(Products);
+}
 
-// //get by id
-// const getSpecificUser = async (req, res) => {
-//     console.log(req.params.id);
-//     const user = await userService.getSpecificUser(req.params.id);
-//     res.send(user);
-// }
+//get by id
+const getSpecificProduct = async (req, res) => {
+    console.log(req.params.id);
+    const Product = await productService.getSpecificProduct(req.params.id);
+    res.send(Product);
+}
 
-module.exports = { createProductDetails }
+module.exports = { createProductDetails, getProductAll, getSpecificProduct }
