@@ -1,3 +1,4 @@
+const registerModel = require("../models/registerModel")
 const userModel = require("../models/registerModel")
 
 const createUserDetails = async (body) => {
@@ -51,10 +52,32 @@ const deleteById = async (id) => {
     return deleteUserId;
 }
 
-// getall active true users
+// getall active true users-filter method
+// const getActiveUser = async () => {
+//     const activeUserData = await userModel.find({});
+//     return activeUserData;
+// }
+
+// getall active true users- aggregate method
 const getActiveUser = async () => {
-    const activeUserData = await userModel.find({});
-    return activeUserData;
+    const userActive = await userModel.aggregate([
+        {
+            $match: {
+                active: true,
+            },
+        }
+    ]);
+    return userActive;
 }
 
-module.exports = { createUserDetails, getUsers, getSpecificUser, deleteById, getActiveUser }
+//update id
+const updateUserDetails = async (id, body) => {
+    const checkId = await registerModel.findById({ _id: id });
+    if (!checkId) {
+        console.log("User not found");
+    }
+    const updateDetails = await registerModel.findByIdAndUpdate({ _id: id }, body, { new: true });
+    return updateDetails;
+};
+
+module.exports = { createUserDetails, getUsers, getSpecificUser, deleteById, getActiveUser, updateUserDetails }

@@ -28,11 +28,17 @@ const deleteById = async (req, res) => {
     res.send(deleteId);
 }
 
-//get only active users
-const getActiveUsers = async (req, res) => {
-    const users = await userService.getActiveUser();
-    const activeUsers = users.filter(users => users.active)
-    res.send(activeUsers);
+//get only active users- filter method
+// const getActiveUsers = async (req, res) => {
+//     const users = await userService.getActiveUser();
+//     const activeUsers = users.filter(users => users.active)
+//     res.send(activeUsers);
+// }
+
+//get only active users - aggregate method
+const getActiveUser = async (req, res) => {
+    const user = await userService.getActiveUser();
+    res.send(user);
 }
 
 //create userlogin
@@ -48,5 +54,14 @@ const userLogin = async (req, res) => {
     }
 };
 
+//update id
+const updateUserDetails = async (req, res) => {
+    const updateUser = await userService.updateUserDetails(req.params.id, req.body)
+    res.send(updateUser)
+}
 
-module.exports = { createUserDetails, getUserAll, getSpecificUser, deleteById, getActiveUsers, userLogin }
+
+module.exports = {
+    createUserDetails, getUserAll, getSpecificUser, deleteById, getActiveUser,
+    userLogin, updateUserDetails
+}

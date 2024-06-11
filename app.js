@@ -114,10 +114,12 @@ const app = express()
 const userRouter = require("./src/router/userRouter")
 const productRouter = require("./src/router/productRouter")
 const bodyParser = require("body-parser")
+const wishlistRouter = require("./src/router/wishlistRouter")
 
 app.use(bodyParser.json())
 app.use("/user", userRouter)
 app.use("/product", productRouter)
+app.use("/wishlist", wishlistRouter)
 
 const db = require('./src/database/db')
 db.on("open", () => {

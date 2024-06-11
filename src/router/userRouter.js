@@ -13,10 +13,17 @@ router.route("/getbyid/:id/active").get(userController.getSpecificUser)
 
 //delete by id
 router.route("/delete/:id").delete(userController.deleteById)
-module.exports = router;
+
 
 //only activeusers
-router.route("/activeusers").get(userController.getActiveUsers)
+//router.route("/activeusers").get(userController.getActiveUsers)- filter method
+router.route("/getactiveuser").get(userController.getActiveUser)
 
 //userLogin
 router.route("/login").post(userController.userLogin)
+
+//update details in id
+router.route("/update/:id").put(userController.updateUserDetails)
+
+
+module.exports = router;
