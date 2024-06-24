@@ -1,5 +1,6 @@
 const registerModel = require("../models/registerModel")
 const userModel = require("../models/registerModel")
+const productModel = require("../models/productModel")
 
 const createUserDetails = async (body) => {
     const createData = await userModel.create(body)
@@ -80,4 +81,72 @@ const updateUserDetails = async (id, body) => {
     return updateDetails;
 };
 
-module.exports = { createUserDetails, getUsers, getSpecificUser, deleteById, getActiveUser, updateUserDetails }
+//get wishlist by id
+const getUserWishlist = async (id) => {
+    const wishlistDetails = await registerModel.aggregate([
+        {
+            $match: {
+                _id: id,
+            },
+        },
+        {
+            $lookup: {
+                from: "wishlists", // collection name from mongodb
+                localField: "_id",
+                foreignField: "userid",
+                as: "wishlistData",
+            },
+        },
+        { $unwind: "$wishlistData" },
+        {
+            $lookup: {
+                from: "products",
+                localField: "wishlistData.productid",
+                foreignField: "_id",
+                as: "productdata",
+            },
+        },
+        { $unwind: "$productdata" },
+        {
+            $group: {
+                _id: {
+                    name: "$name",
+                    rollno: "$rollno",
+                    id: "$id",
+                    email: "$email",
+                },
+                productData: {
+                    $push: {
+                        Productname: "$productdata.productName",
+                        Modelnumber: "$productdata.modelnumber",
+                        Price: "$productdata.price",
+                        Category: "$productdata.category",
+                        Quantity: "$productdata.qty"
+                    }
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                name: "$_id.name",
+                rollno: "$_id.rollno",
+                id: "$_id.id",
+                email: "$_id.email",
+                productData: 1,
+            }
+        }
+    ]);
+    return wishlistDetails;
+}
+
+// user login authentication
+const userLoginAuthentication = async (name, password) => {
+    const loginAuthentication = await userModel.findOne({ name, password })
+    return loginAuthentication
+}
+
+module.exports = {
+    createUserDetails, getUsers, getSpecificUser, deleteById, getActiveUser,
+    updateUserDetails, getUserWishlist, userLoginAuthentication
+}

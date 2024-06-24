@@ -20,10 +20,12 @@ router.route("/delete/:id").delete(userController.deleteById)
 router.route("/getactiveuser").get(userController.getActiveUser)
 
 //userLogin
-router.route("/login").post(userController.userLogin)
+router.route("/login").post(userController.userlogin)
 
 //update details in id
 router.route("/update/:id").put(userController.updateUserDetails)
 
+//get wishlist by userid
+router.route("/getwishlistbyid/:id").get(userController.getUserWishlist)
 
 module.exports = router;
